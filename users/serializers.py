@@ -96,3 +96,9 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         if User.objects.exclude(pk=user.pk).filter(email=value).exists():
             raise serializers.ValidationError("Email already exists.")
         return value
+    
+
+class BloodSecretarySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BloodSecretary
+        fields = '__all__'

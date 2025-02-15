@@ -22,7 +22,7 @@ class Donor(models.Model):
 class BloodHistory(models.Model):
     donor = models.ForeignKey(Donor, on_delete=models.CASCADE, related_name='donation_history')
     donation_date = models.DateField(auto_now_add=True)
-    blood_donated = models.FloatField()  # Store in liters (L)
+    blood_donated = models.FloatField() 
 
     def __str__(self):
         return f"{self.donor.user.username} donated {self.blood_donated}L on {self.donation_date}"
