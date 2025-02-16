@@ -59,6 +59,7 @@ class LoginView(APIView):
         # Create the JWT token
         refresh = RefreshToken.for_user(user)
         access_token = str(refresh.access_token)
+        refresh_token = str(refresh)
 
         # Get the role associated with the user
         try:
@@ -71,9 +72,15 @@ class LoginView(APIView):
                 role = 'member'
 
             return Response({
+                'user': {
                 'user_id': user.id,
-                'token': access_token,
                 'role': role
+                },
+                'tokens': {
+                    'access_token': access_token,
+                    'refresh_token': refresh_token
+                },
+           
             })
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
