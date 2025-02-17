@@ -5,3 +5,5 @@ python-dotenv
 django-cors-headers
 celery
 drf-yasg
+psycopg2-binary
+dj-database-url
