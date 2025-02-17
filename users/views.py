@@ -12,7 +12,7 @@ from django.contrib.auth import login, authenticate,logout
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from .models import Secretary, BloodSecretary,Member
-from users.permission import BloodSecretaryPermission
+from users.permission import BloodSecretaryPermission, SecretaryPermission
 
 class SecretaryRegisterView(APIView):
     def post(self, request):
@@ -139,7 +139,7 @@ class SecretaryUpdateView(APIView):
     
 
 class BloodSecretaryUpdateView(APIView):
-    # permission_classes = [IsAuthenticated, RoleBasedPermission('blood_secretary')]
+    permission_classes = [IsAuthenticated, BloodSecretaryPermission]
     
     def update_member(self, request, member_id):
         try:
@@ -158,7 +158,7 @@ class BloodSecretaryUpdateView(APIView):
 
 
 class ResetSecretaryPasswordView(APIView):
-    permission_classes = [IsAuthenticated]  # Ensure the user is authenticated
+    permission_classes = [IsAuthenticated, SecretaryPermission]  # Ensure the user is authenticated
 
     def post(self, request):
         try:
@@ -207,7 +207,7 @@ class ResetSecretaryPasswordView(APIView):
 
 
 class ResetBloodSecretaryPassword(APIView):
-    permission_classes = [IsAuthenticated]  # Ensure the user is authenticated
+    permission_classes = [IsAuthenticated, SecretaryPermission]  # Ensure the user is authenticated
 
     def post(self, request):
         try:
