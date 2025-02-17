@@ -34,7 +34,7 @@ class DonorUpdateView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class DonorListView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     def get(self, request):
         donors = Donor.objects.all()
         serializer = DonarSerializer(donors, many=True)

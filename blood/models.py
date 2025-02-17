@@ -8,15 +8,24 @@ class Donor(models.Model):
         ('A+', 'A+'), ('A-', 'A-'), ('B+', 'B+'), ('B-', 'B-'),
         ('O+', 'O+'), ('O-', 'O-'), ('AB+', 'AB+'), ('AB-', 'AB-')
     ]
+    name = models.CharField(max_length=30)
     blood_type = models.CharField(max_length=3, choices=BLOOD_TYPES)
     contact_number = models.CharField(max_length=15, unique=True)
     location = models.CharField(max_length=100)
     last_donation_date = models.DateField(null=True, blank=True)
     total_blood_donated = models.IntegerField(null=True, blank=True)
-    is_available = models.BooleanField()
+    is_available = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.contact_number} ({self.blood_type})"
+    
+    def update_availability(self):
+        # If last donation was more than 4 months ago, set availability to True
+        four_months_ago = timezone.now().date() - timedelta(days=120)
+        if self.last_donation_date and self.last_donation_date <= four_months_ago:
+            self.is_available = True
+        else:
+            self.is_available = False
     
     
 class BloodHistory(models.Model):
@@ -24,8 +33,8 @@ class BloodHistory(models.Model):
     donation_date = models.DateField(auto_now_add=True)
     blood_donated = models.FloatField() 
 
-    def __str__(self):
-        return f"{self.donor.user.username} donated {self.blood_donated}L on {self.donation_date}"
+    # def __str__(self):
+    #     return f"{self.donor.user.username} donated {self.blood_donated}L on {self.donation_date}"
 
 class BloodRequest(models.Model):
     blood_type = models.CharField(max_length=3, choices=Donor.BLOOD_TYPES)

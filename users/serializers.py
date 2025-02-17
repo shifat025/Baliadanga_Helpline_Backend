@@ -98,7 +98,34 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         return value
     
 
+
+
+
 class BloodSecretarySerializer(serializers.ModelSerializer):
+    # Get the user's name as a string 
+    name = serializers.CharField(source='user.get_full_name', read_only=True)
+    
+    # Get the role as a string 
+    role = serializers.CharField(source='role.role', read_only=True)
+    
+    # Optionally, you can include the secretary's name if needed
+    secretary_name = serializers.CharField(source='secretary.__str__', read_only=True)
+
+    # Include the user ID in the response
+    user = serializers.PrimaryKeyRelatedField(source='user.id', read_only=True)
+
     class Meta:
         model = BloodSecretary
-        fields = '__all__'
+        fields = ['id', 'phone', 'user', 'name', 'role', 'secretary_name']
+
+
+class MemberSerializer(serializers.ModelSerializer):
+    # Custom fields for readable name
+    name = serializers.CharField(source='user.get_full_name', read_only=True)
+    role = serializers.CharField(source='role.role', read_only=True)
+    secretary_name = serializers.CharField(source='secretary.__str__', read_only=True)
+    blood_secretary_name = serializers.CharField(source='blood_secretary.__str__', read_only=True)
+    
+    class Meta:
+        model = Member
+        fields = ['id', 'phone', 'user', 'name', 'role', 'secretary_name', 'blood_secretary_name']

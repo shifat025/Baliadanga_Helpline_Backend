@@ -6,7 +6,7 @@ import string
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import RegisteSerializer, UserUpdateSerializer, BloodSecretarySerializer
+from .serializers import RegisteSerializer, UserUpdateSerializer, BloodSecretarySerializer, MemberSerializer
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate,logout
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -44,6 +44,13 @@ class BloodSecretaryListView(APIView):
         blood_secretaries = BloodSecretary.objects.all()
         serializer = BloodSecretarySerializer(blood_secretaries, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class MemberListView(APIView):
+    def get(self, request):
+        members = Member.objects.all()
+        serializer = MemberSerializer(members, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
 # Todo login with email and number
 class LoginView(APIView):
     def post(self, request, *args, **kwargs):

@@ -10,10 +10,10 @@ class DonarSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Remove the is_available field from validated data
         validated_data.pop('is_available', None)
-        
+
         # Create the Donor instance
         donor = Donor.objects.create(**validated_data)
-        
+
         # Automatically set is_available based on the last_donation_date
         donor.update_availability()
         

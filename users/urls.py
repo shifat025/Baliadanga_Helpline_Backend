@@ -10,7 +10,8 @@ from .views import (
     ResetSecretaryPasswordView,
     ResetBloodSecretaryPassword,
     BloodSecretaryListView,
-    ResetMemberPassword
+    ResetMemberPassword,
+    MemberListView
 )
 
 
@@ -25,7 +26,8 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('reset-secretary-password/', ResetSecretaryPasswordView.as_view(), name='reset-secretary-password'),
-    path('blood-secretaries/', BloodSecretaryListView.as_view(), name='blood-secretary-list'),
+    path('blood-secretaries/list/', BloodSecretaryListView.as_view(), name='blood-secretary-list'),
+    path('members/list/', MemberListView.as_view(), name='member-list'),
     path('reset-blood-secretary-password/', ResetBloodSecretaryPassword.as_view(), name='reset_blood_secretary_password'),
     path('reset-member-password/', ResetMemberPassword.as_view(), name='reset-member-password'),
 ]
